@@ -21,7 +21,7 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
-    - cmake
+    - cmake <4
     - ninja
     - pkg-config
   host:
