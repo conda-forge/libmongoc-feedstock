@@ -9,6 +9,10 @@ Package license: Apache-2.0
 
 Summary: A high-performance MongoDB driver for C
 
+Development: https://github.com/mongodb/mongo-c-driver
+
+Documentation: https://www.mongoc.org/libmongoc/current/
+
 Current build status
 ====================
 
