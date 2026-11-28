@@ -12,6 +12,9 @@ source:
   patches:
     # conda-forge's libbson ships no static library; don't require it
     - fix-static-dep.patch
+    # link librt by name so mongoc2.pc doesn't leak the build sysroot path
+    # (same patch as in libbson-feedstock)
+    - relocatable-platform-libs.patch
 
 build:
   number: 0
@@ -59,6 +62,7 @@ tests:
     then:
       script:
         - pkg-config --exists "mongoc2 = ${{ version }}"
+        - "! grep -E 'build_env|/sysroot/' $PREFIX/lib/pkgconfig/mongoc2.pc"
         - test ! -f $PREFIX/lib/libmongoc2.a
       requirements:
         run:
