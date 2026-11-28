@@ -1,25 +1,25 @@
-:: MSVC is preferred.
-set CC=cl.exe
-set CXX=cl.exe
+@echo on
 
-mkdir build
-cd build
-
-cmake ^
-    -G "Ninja" ^
-    -DENABLE_ZLIB=SYSTEM ^
-    -DENABLE_BSON=SYSTEM ^
-    -DENABLE_STATIC=OFF ^
-    -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
+cmake %CMAKE_ARGS% -S . -B build ^
+    -G Ninja ^
     -DCMAKE_BUILD_TYPE=Release ^
+    -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
+    -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DBUILD_SHARED_LIBS=ON ^
-    %SRC_DIR%
+    -DENABLE_SHARED=ON ^
+    -DENABLE_STATIC=OFF ^
+    -DENABLE_TESTS=OFF ^
+    -DENABLE_EXAMPLES=OFF ^
+    -DUSE_SYSTEM_LIBBSON=ON ^
+    -DENABLE_ZLIB=SYSTEM ^
+    -DENABLE_ZSTD=AUTO ^
+    -DENABLE_SNAPPY=AUTO ^
+    -DENABLE_SSL=WINDOWS ^
+    -DENABLE_SASL=SSPI
 if errorlevel 1 exit 1
 
-:: Build.
-cmake --build . --config Release
+cmake --build build --config Release
 if errorlevel 1 exit 1
 
-:: Install.
-cmake --build . --config Release --target install
+cmake --install build --config Release
 if errorlevel 1 exit 1
